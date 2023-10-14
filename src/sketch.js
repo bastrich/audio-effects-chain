@@ -108,7 +108,7 @@ class Knob {
 
 
         this.angle = this.minAngle;
-        this.draggingStartAngle = this.angle;
+        this.draggingStartAngleOffset = this.angle;
         this.dragging = false;
     }
 
@@ -121,11 +121,15 @@ class Knob {
             let dx = mouseX - (this.x + this.width / 2);
             let dy = mouseY - (this.y + this.height / 2);
 
-            let angle = atan2(dy, dx) - this.draggingStartAngle;
+            // this.angle = atan2(dy, dx);
+            let angle = (atan2(dy, dx) - this.draggingStartAngleOffset) % TWO_PI;
+            if (angle < 0) {
+                angle += TWO_PI;
+            }
 
-            // if (angle >= this.minAngle && angle <= this.maxAngle) {
+            if (angle >= this.minAngle && angle  <= this.maxAngle) {
                 this.angle = angle;
-            // }
+            }
         }
 
 
@@ -182,9 +186,8 @@ class Knob {
         if (this.mouseIsOnImage()) {
             let dx = mouseX - (this.x + this.width / 2);
             let dy = mouseY - (this.y + this.height / 2);
-            let mouseAngle = atan2(dy, dx);
             this.dragging = true;
-            this.draggingStartAngle = mouseAngle - this.angle;
+            this.draggingStartAngleOffset = atan2(dy, dx) - this.angle;
         }
     }
 
