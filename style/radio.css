@@ -1,0 +1,45 @@
+@font-face {
+    font-family: radio-font;
+    src: url(../fonts/cinzel.black.ttf);
+}
+
+.audi-radio {
+    border-radius: 20px;
+    background-color: AliceBlue;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.audi-radio > * {
+    flex: 1;
+    margin: 0;
+}
+
+.audi-radio input {
+    display: none;
+}
+
+.audi-radio label:has(input:checked) {
+    background-color: LightSkyBlue;
+}
+
+.audi-radio label {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+
+    font-family: radio-font;
+    font-size: 12px;
+
+    &:hover {
+        color: #007ECC;
+    }
+}

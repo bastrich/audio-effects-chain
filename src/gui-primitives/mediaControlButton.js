@@ -1,8 +1,9 @@
 class MediaControlButton {
 
-    constructor(image, x, y, onClick) {
+    constructor(image, x, y, size, onClick) {
         this.x = x;
         this.y = y;
+        this.size = size;
         this.image = image;
         this.onClick = onClick;
         this.isPressed = false;
@@ -14,7 +15,7 @@ class MediaControlButton {
             drawingContext.shadowColor = color("DodgerBlue");
             drawingContext.shadowOffsetX = 0;
             drawingContext.shadowOffsetY = 0;
-            image(this.image, this.x + 2, this.y + 2);
+            image(this.image, this.x + 2, this.y + 2, this.size, this.size);
             return;
         }
 
@@ -23,7 +24,7 @@ class MediaControlButton {
             drawingContext.shadowOffsetX = 0;
             drawingContext.shadowOffsetY = 0;
             drawingContext.shadowColor = color("DeepSkyBlue");
-            image(this.image, this.x, this.y);
+            image(this.image, this.x, this.y, this.size, this.size);
             return;
         }
 
@@ -31,7 +32,7 @@ class MediaControlButton {
         drawingContext.shadowOffsetX = 5;
         drawingContext.shadowOffsetY = 5;
         drawingContext.shadowBlur = 0;
-        image(this.image, this.x, this.y);
+        image(this.image, this.x, this.y, this.size, this.size);
     }
 
     mousePressed() {
@@ -61,8 +62,11 @@ class MediaControlButton {
     }
 
     mouseIsOnImage() {
+        let imageX = map(mouseX - this.x, 0, this.size, 0, this.image.width);
+        let imageY = map(mouseY - this.y, 0, this.size, 0, this.image.height);
+
         return mouseX > this.x && mouseX < this.x + this.image.width
             && mouseY > this.y && mouseY < this.y + this.image.height
-            && this.image.get(mouseX - this.x, mouseY - this.y)[3] != 0
+            && this.image.get(imageX, imageY)[3] != 0
     }
 }
