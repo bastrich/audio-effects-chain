@@ -16,6 +16,7 @@ class MediaControlButton {
             drawingContext.shadowOffsetX = 0;
             drawingContext.shadowOffsetY = 0;
             image(this.image, this.x + 2, this.y + 2, this.size, this.size);
+            drawingContext.shadowBlur = 0;
             return;
         }
 
@@ -25,6 +26,7 @@ class MediaControlButton {
             drawingContext.shadowOffsetY = 0;
             drawingContext.shadowColor = color("DeepSkyBlue");
             image(this.image, this.x, this.y, this.size, this.size);
+            drawingContext.shadowBlur = 0;
             return;
         }
 
@@ -33,6 +35,10 @@ class MediaControlButton {
         drawingContext.shadowOffsetY = 5;
         drawingContext.shadowBlur = 0;
         image(this.image, this.x, this.y, this.size, this.size);
+    }
+
+    cursorShouldBeHand() {
+        return this.mouseIsOnImage();
     }
 
     mousePressed() {
@@ -51,7 +57,6 @@ class MediaControlButton {
             this.onClick()
         }
     }
-
 
     isHover() {
         if (this.mouseIsOnImage() && !mouseIsPressed) {

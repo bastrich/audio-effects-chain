@@ -23,6 +23,12 @@ function draw() {
     drawingContext.shadowOffsetY = 0;
 
     filterPanel.draw();
+
+    if (playbackControlPanel.cursorShouldBeHand() || filterPanel.cursorShouldBeHand()) {
+        cursor(HAND);
+    } else {
+        cursor(ARROW);
+    }
 }
 
 function mousePressed() {

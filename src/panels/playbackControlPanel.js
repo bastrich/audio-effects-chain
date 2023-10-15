@@ -31,6 +31,16 @@ class PlaybackControlPanel {
         this.recordButton.draw();
     }
 
+    cursorShouldBeHand() {
+        return this.pauseButton.cursorShouldBeHand()
+            || this.playButton.cursorShouldBeHand()
+            || this.stopButton.cursorShouldBeHand()
+            || this.backwardButton.cursorShouldBeHand()
+            || this.forwardButton.cursorShouldBeHand()
+            || this.loopButton.cursorShouldBeHand()
+            || this.recordButton.cursorShouldBeHand();
+    }
+
     mousePressed() {
         this.pauseButton.mousePressed();
         this.playButton.mousePressed();
