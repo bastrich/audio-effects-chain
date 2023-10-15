@@ -9,7 +9,8 @@ let delayPanel;
 let masterVolumePanel;
 
 
-let spectrumPanel;
+let spectrumInPanel;
+let spectrumOutPanel;
 
 function preload() {
     prerecordedAudio = loadSound('audio/prerecorded.wav');
@@ -25,12 +26,14 @@ function preload() {
     waveshaperDistortionPanel = new WaveshaperDistortionPanel(310, 570);
     delayPanel = new DelayPanel(600, 570);
     masterVolumePanel = new MasterVolumePanel(765, 180);
+    spectrumInPanel = new SpectrumPanel(1000, 100, 470, 350, "Spectrum IN", prerecordedAudio);
+    spectrumOutPanel = new SpectrumPanel(1000, 490, 470, 350, "Spectrum OUT", prerecordedAudio);
 }
 
 function setup() {
     createCanvas(1500, 980);
 
-    spectrumPanel = new SpectrumPanel(300, 400, 200, 100, prerecordedAudio)
+
 }
 
 function draw() {
@@ -43,7 +46,8 @@ function draw() {
     waveshaperDistortionPanel.draw();
     delayPanel.draw();
     masterVolumePanel.draw();
-    spectrumPanel.draw();
+    spectrumInPanel.draw();
+    spectrumOutPanel.draw();
 
     if (playbackControlPanel.cursorShouldBeHand()
         || filterPanel.cursorShouldBeHand()
