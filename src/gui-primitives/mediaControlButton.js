@@ -35,6 +35,8 @@ class MediaControlButton {
         drawingContext.shadowOffsetY = 5;
         drawingContext.shadowBlur = 0;
         image(this.image, this.x, this.y, this.size, this.size);
+        drawingContext.shadowOffsetX = 0;
+        drawingContext.shadowOffsetY = 0;
     }
 
     cursorShouldBeHand() {

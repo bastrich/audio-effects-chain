@@ -1,5 +1,9 @@
 class PlaybackControlPanel {
-    constructor(x, y) {
+    constructor(
+        x, y,
+        onPlay,
+        onStop
+    ) {
         this.modeRadio = createRadio('mode-radio');
         this.modeRadio.option('Prerecorded Audio');
         this.modeRadio.option('Microphone');
@@ -13,8 +17,8 @@ class PlaybackControlPanel {
         let buttonDistance = 50;
         let buttonY = y + 5;
         this.pauseButton = new MediaControlButton(loadImage("images/pause.png"), buttonX, buttonY, 50, function () {});
-        this.playButton = new MediaControlButton(loadImage("images/play.png"), buttonX+=buttonDistance, buttonY, 50, function () { });
-        this.stopButton = new MediaControlButton(loadImage("images/stop.png"), buttonX+=buttonDistance, buttonY, 50, function () { });
+        this.playButton = new MediaControlButton(loadImage("images/play.png"), buttonX+=buttonDistance, buttonY, 50, onPlay);
+        this.stopButton = new MediaControlButton(loadImage("images/stop.png"), buttonX+=buttonDistance, buttonY, 50, onStop);
         this.backwardButton = new MediaControlButton(loadImage("images/backward.png"), buttonX+=buttonDistance, buttonY, 50, function () {});
         this.forwardButton = new MediaControlButton(loadImage("images/forward.png"), buttonX+=buttonDistance, buttonY, 50, function () {});
         this.loopButton = new MediaControlButton(loadImage("images/loop.png"), buttonX+=buttonDistance, buttonY, 50, function () {});

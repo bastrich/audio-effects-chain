@@ -32,10 +32,12 @@ class Knob {
             if (angle >= this.minAngle && angle <= this.maxAngle) {
                 this.angle = angle;
             } else if (angle > this.maxAngle) {
-                if (angle > this.maxAngle + PI / 4) {
-                    this.angle = this.minAngle;
-                } else {
-                    this.angle = this.maxAngle;
+                if (this.angle !== this.minAngle && this.angle !== this.maxAngle) {
+                    if (angle > this.maxAngle + PI / 4) {
+                        this.angle = this.minAngle;
+                    } else {
+                        this.angle = this.maxAngle;
+                    }
                 }
             }
 
@@ -99,7 +101,7 @@ class Knob {
     }
 
     cursorShouldBeHand() {
-        return this.mouseIsOnImage();
+        return this.mouseIsOnImage() || this.dragging;
     }
 
     mousePressed() {
