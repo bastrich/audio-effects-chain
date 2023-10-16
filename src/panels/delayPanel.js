@@ -1,5 +1,12 @@
 class DelayPanel {
-    constructor(x, y) {
+    constructor(
+        x, y,
+        onDelayTimeChange,
+        onFeedbackChange,
+        onLowpassFrequencyChange,
+        onDryWetChange,
+        onOutputLevelChange,
+    ) {
         this.x = x;
         this.y = y;
         this.width = 370;
@@ -8,11 +15,11 @@ class DelayPanel {
         this.headerFont = loadFont("fonts/Pusingkali-BWxnB.ttf")
         this.labelFont = loadFont("fonts/CroissantOne-dpgZ.ttf")
 
-        this.attackKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100);
-        this.kneeKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100);
-        this.releaseKnob = new Knob(x + 250, y + this.headerTextSize + 50, 100);
-        this.dryWetSlider = new Slider(x + 103, y + this.headerTextSize + 185, 130);
-        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 185, 130);
+        this.delayTimeKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100, 0, 1, 0, onDelayTimeChange);
+        this.feedbackKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100, 0, 1, 0.5, onFeedbackChange);
+        this.lowpassFrequencyKnob = new Knob(x + 250, y + this.headerTextSize + 50, 100, 10, 22050, 10, onLowpassFrequencyChange);
+        this.dryWetSlider = new Slider(x + 103, y + this.headerTextSize + 185, 130, 0, onDryWetChange);
+        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 185, 130, 0, onOutputLevelChange);
     }
 
     draw() {
@@ -27,13 +34,13 @@ class DelayPanel {
         rect(this.x, this.y + this.headerTextSize,  this.width, this.height, 10);
 
         this.drawLabel("Delay Time", this.x + 60, this.y + this.headerTextSize + 50);
-        this.attackKnob.draw();
+        this.delayTimeKnob.draw();
 
         this.drawLabel("Feedback", this.x + 180, this.y + this.headerTextSize + 50);
-        this.kneeKnob.draw();
+        this.feedbackKnob.draw();
 
         this.drawLabel("Low-pass\nfrequency", this.x + 300, this.y + this.headerTextSize + 50);
-        this.releaseKnob.draw();
+        this.lowpassFrequencyKnob.draw();
 
 
         this.drawLabel("Dry/Wet", this.x + 120, this.y + this.headerTextSize + 190);
@@ -41,9 +48,9 @@ class DelayPanel {
     }
 
     cursorShouldBeHand() {
-        return this.attackKnob.cursorShouldBeHand()
-            || this.kneeKnob.cursorShouldBeHand()
-            || this.releaseKnob.cursorShouldBeHand();
+        return this.delayTimeKnob.cursorShouldBeHand()
+            || this.feedbackKnob.cursorShouldBeHand()
+            || this.lowpassFrequencyKnob.cursorShouldBeHand();
     }
 
     drawLabel(labelText, x, y) {
@@ -55,14 +62,14 @@ class DelayPanel {
     }
 
     mousePressed() {
-        this.attackKnob.mousePressed();
-        this.kneeKnob.mousePressed();
-        this.releaseKnob.mousePressed();
+        this.delayTimeKnob.mousePressed();
+        this.feedbackKnob.mousePressed();
+        this.lowpassFrequencyKnob.mousePressed();
     }
 
     mouseReleased() {
-        this.attackKnob.mouseReleased();
-        this.kneeKnob.mouseReleased();
-        this.releaseKnob.mouseReleased();
+        this.delayTimeKnob.mouseReleased();
+        this.feedbackKnob.mouseReleased();
+        this.lowpassFrequencyKnob.mouseReleased();
     }
 }

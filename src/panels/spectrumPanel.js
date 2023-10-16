@@ -1,5 +1,5 @@
 class SpectrumPanel {
-    constructor(x, y, width, height, title, audioSource) {
+    constructor(x, y, width, height, title, audioInput) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -8,10 +8,10 @@ class SpectrumPanel {
         this.headerTextSize = 40;
         this.headerFont = loadFont("fonts/Pusingkali-BWxnB.ttf")
 
-        this.audioSource = audioSource;
+        // this.audioSource = audioSource;
 
         this.fft = new p5.FFT();
-        this.fft.setInput(audioSource)
+        this.fft.setInput(audioInput)
     }
 
     draw() {
@@ -28,7 +28,7 @@ class SpectrumPanel {
 
 
         let spectrum = this.fft.analyze();
-        let freqPerBin = this.audioSource.sampleRate() / 2 / this.fft.bins;
+        // let freqPerBin = this.audioSource.sampleRate() / 2 / this.fft.bins;
         noStroke();
         fill(color(0, 250, 154, 240));
         for (let i = 0; i < spectrum.length; i++) {

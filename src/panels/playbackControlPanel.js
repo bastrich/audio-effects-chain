@@ -1,9 +1,15 @@
 class PlaybackControlPanel {
     constructor(
         x, y,
+        onPrerecordedAudio,
+        onMicrophone,
         onPlay,
         onStop
     ) {
+        this.onPrerecordedAudio = onPrerecordedAudio;
+        this.onMicrophone = onMicrophone;
+
+
         this.modeRadio = createRadio('mode-radio');
         this.modeRadio.option('Prerecorded Audio');
         this.modeRadio.option('Microphone');
@@ -12,6 +18,7 @@ class PlaybackControlPanel {
         this.modeRadio.style('width', '200px');
         this.modeRadio.style('height','50px');
         this.modeRadio.position(x + 5, y + 10)
+        this.modeRadio.elt.onchange = this.onRadioChangeFunction();
 
         let buttonX = x + 205;
         let buttonDistance = 50;
@@ -63,5 +70,19 @@ class PlaybackControlPanel {
         this.forwardButton.mouseReleased();
         this.loopButton.mouseReleased();
         this.recordButton.mouseReleased();
+    }
+
+    onRadioChangeFunction() {
+        let self = this;
+        return function() {
+            switch (self.modeRadio.value()) {
+                case "Prerecorded Audio":
+                    self.onPrerecordedAudio();
+                    break;
+                case "Microphone":
+                    self.onMicrophone();
+                    break;
+            }
+        }
     }
 }

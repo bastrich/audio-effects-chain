@@ -1,5 +1,12 @@
 class FilterPanel {
-    constructor(x, y) {
+    constructor(
+        x, y,
+        onCutoffFrequencyChange,
+        onResonanceChange,
+        onFilterTypeChange,
+        onDryWetChange,
+        onOutputLevelChange,
+    ) {
         this.x = x;
         this.y = y;
         this.width = 240;
@@ -17,11 +24,14 @@ class FilterPanel {
         this.filterTypeRadio.style('width', (this.width - 10) + 'px');
         this.filterTypeRadio.style('height', 40 + 'px');
         this.filterTypeRadio.position(this.x + 5, this.y + this.headerTextSize + 5)
+        this.filterTypeRadio.changed((event) => onFilterTypeChange(this.mapFilterTypeRadioValue(event.target.value)));
 
-        this.cutoffFrequencyKnob = new Knob(x + 10, y + this.headerTextSize + 90, 100);
-        this.resonanceKnob = new Knob(x + 130, y + this.headerTextSize + 90, 100);
-        this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 225, 130);
-        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 225, 130);
+        this.cutoffFrequencyKnob = new Knob(x + 10, y + this.headerTextSize + 90, 100, 10, 22050, 10, onCutoffFrequencyChange);
+        this.resonanceKnob = new Knob(x + 130, y + this.headerTextSize + 90, 100, 0.001, 1000, 0.001, onResonanceChange);
+        this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 225, 130, 0, onDryWetChange);
+        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 225, 130, 0, onOutputLevelChange);
+
+        onFilterTypeChange(this.mapFilterTypeRadioValue('Low-pass'));
     }
 
     draw() {
@@ -66,5 +76,16 @@ class FilterPanel {
     mouseReleased() {
         this.cutoffFrequencyKnob.mouseReleased();
         this.resonanceKnob.mouseReleased();
+    }
+
+    mapFilterTypeRadioValue(value) {
+        switch (value) {
+            case 'Low-pass':
+                return 'lowpass';
+            case 'High-pass':
+                return 'highpass';
+            case 'Band-pass':
+                return 'bandpass';
+        }
     }
 }

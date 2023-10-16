@@ -1,8 +1,15 @@
 class Knob {
-    constructor(x, y, size) {
+    constructor(x, y, size, min, max, value, onChange) {
         this.x = x;
         this.y = y;
         this.size = size;
+
+        this.min = min;
+        this.max = max;
+        this.value = value;
+
+        this.onChange = onChange;
+
         this.barsSize = 15;
         this.knobSize = size - 2 * this.barsSize;
 
@@ -10,17 +17,21 @@ class Knob {
         this.maxAngle = 3 / 2 * PI;
 
 
-        this.angle = this.minAngle;
+        this.angle = map(this.value, this.min, this.max, this.minAngle, this.maxAngle);
         this.draggingStartAngleOffset = this.angle;
         this.dragging = false;
 
         this.image = loadImage("../images/knob.png");
+
+        this.onChange(this.value);
     }
 
     draw() {
         this.drawBars();
 
         if (this.dragging) {
+            let currentAngle = this.angle;
+
             let dx = mouseX - (this.x + this.size / 2);
             let dy = mouseY - (this.y + this.size / 2);
 
@@ -40,6 +51,15 @@ class Knob {
                     }
                 }
             }
+
+            let newAngle = this.angle;
+
+            if (currentAngle !== newAngle) {
+                this.value = map(this.angle, this.minAngle, this.maxAngle, this.min, this.max);
+                this.onChange(this.value );
+            }
+
+
 
             drawingContext.shadowColor = color(0, 250, 154, 150);
             drawingContext.shadowBlur = 15;

@@ -1,5 +1,14 @@
 class DynamicCompressorPanel {
-    constructor(x, y) {
+    constructor(
+        x, y,
+        onAttackChange,
+        onKneeChange,
+        onReleaseChange,
+        onRationChange,
+        onThresholdChange,
+        onDryWetChange,
+        onOutputLevelChange,
+    ) {
         this.x = x;
         this.y = y;
         this.width = 370;
@@ -8,13 +17,13 @@ class DynamicCompressorPanel {
         this.headerFont = loadFont("fonts/Pusingkali-BWxnB.ttf")
         this.labelFont = loadFont("fonts/CroissantOne-dpgZ.ttf")
 
-        this.attackKnob = new Knob(x + 10, y + this.headerTextSize + 30, 100);
-        this.kneeKnob = new Knob(x + 130, y + this.headerTextSize + 30, 100);
-        this.releaseKnob = new Knob(x + 250, y + this.headerTextSize + 30, 100);
-        this.ratioKnob = new Knob(x + 70, y + this.headerTextSize + 150, 100);
-        this.thresholdKnob = new Knob(x + 200, y + this.headerTextSize + 150, 100);
-        this.dryWetSlider = new Slider(x + 103, y + this.headerTextSize + 285, 130);
-        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 285, 130);
+        this.attackKnob = new Knob(x + 10, y + this.headerTextSize + 30, 100, 0, 1, 0.003, onAttackChange);
+        this.kneeKnob = new Knob(x + 130, y + this.headerTextSize + 30, 100, 0, 40, 30, onKneeChange);
+        this.releaseKnob = new Knob(x + 250, y + this.headerTextSize + 30, 100, 0, 1, 0.25, onReleaseChange);
+        this.ratioKnob = new Knob(x + 70, y + this.headerTextSize + 150, 100, 1, 20, 12, onRationChange);
+        this.thresholdKnob = new Knob(x + 200, y + this.headerTextSize + 150, 100, -100, 0, -24, onThresholdChange);
+        this.dryWetSlider = new Slider(x + 103, y + this.headerTextSize + 285, 130, 0, onDryWetChange);
+        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 285, 130, 0, onOutputLevelChange);
     }
 
     draw() {

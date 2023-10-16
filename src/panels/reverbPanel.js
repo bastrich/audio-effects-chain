@@ -1,5 +1,12 @@
 class ReverbPanel {
-    constructor(x, y) {
+    constructor(
+        x, y,
+        onDurationChange,
+        onDecayRateChange,
+        onReverseChange,
+        onDryWetChange,
+        onOutputLevelChange,
+    ) {
         this.x = x;
         this.y = y;
         this.width = 240;
@@ -11,12 +18,14 @@ class ReverbPanel {
         this.reverseCheckbox = createCheckbox(false);
         this.reverseCheckbox.position(this.x + 20, this.y + this.headerTextSize + 170)
         this.reverseCheckbox.addClass('reverse-reverb-checkbox')
-        // this.reverseCheckbox.changed(myCheckedEvent);
+        this.reverseCheckbox.changed((event) => onReverseChange(event.target.checked));
 
-        this.cutoffFrequencyKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100);
-        this.resonanceKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100);
-        this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 245, 130);
-        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 245, 130);
+        this.durationKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100, 0, 10, 3, onDurationChange);
+        this.decayRateKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100, 0, 100, 2, onDecayRateChange);
+        this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 245, 130, 0, onDryWetChange);
+        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 245, 130, 0, onOutputLevelChange);
+
+        onReverseChange(false);
     }
 
     draw() {
@@ -31,10 +40,10 @@ class ReverbPanel {
         rect(this.x, this.y + this.headerTextSize,  this.width, this.height, 10);
 
         this.drawLabel("Reverb\nDuration", this.x + 60, this.y + this.headerTextSize + 50);
-        this.cutoffFrequencyKnob.draw();
+        this.durationKnob.draw();
 
         this.drawLabel("Decay\nRate", this.x + 180, this.y + this.headerTextSize + 50);
-        this.resonanceKnob.draw();
+        this.decayRateKnob.draw();
 
         this.drawLabel("Reverse", this.x + 85, this.y + this.headerTextSize + 190);
 
@@ -43,7 +52,7 @@ class ReverbPanel {
     }
 
     cursorShouldBeHand() {
-        return this.cutoffFrequencyKnob.cursorShouldBeHand() || this.resonanceKnob.cursorShouldBeHand();
+        return this.durationKnob.cursorShouldBeHand() || this.decayRateKnob.cursorShouldBeHand();
     }
 
     drawLabel(labelText, x, y) {
@@ -55,12 +64,12 @@ class ReverbPanel {
     }
 
     mousePressed() {
-        this.cutoffFrequencyKnob.mousePressed();
-        this.resonanceKnob.mousePressed();
+        this.durationKnob.mousePressed();
+        this.decayRateKnob.mousePressed();
     }
 
     mouseReleased() {
-        this.cutoffFrequencyKnob.mouseReleased();
-        this.resonanceKnob.mouseReleased();
+        this.durationKnob.mouseReleased();
+        this.decayRateKnob.mouseReleased();
     }
 }

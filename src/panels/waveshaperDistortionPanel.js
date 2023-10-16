@@ -1,5 +1,11 @@
 class WaveshaperDistortionPanel {
-    constructor(x, y) {
+    constructor(
+        x, y,
+        onDistortionAmountChange,
+        onOversampleChange,
+        onDryWetChange,
+        onOutputLevelChange,
+    ) {
         this.x = x;
         this.y = y;
         this.width = 240;
@@ -8,10 +14,10 @@ class WaveshaperDistortionPanel {
         this.headerFont = loadFont("fonts/Pusingkali-BWxnB.ttf")
         this.labelFont = loadFont("fonts/CroissantOne-dpgZ.ttf")
 
-        this.cutoffFrequencyKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100);
-        this.resonanceKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100);
-        this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 185, 130);
-        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 185, 130);
+        this.distortionAmountKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100, 0, 1, 0.25, onDistortionAmountChange);
+        this.oversampleKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100, 0, 3, 0, (value) => onOversampleChange(this.mapOversampleKnobValue(value)));
+        this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 185, 130, 0, onDryWetChange);
+        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 185, 130, 0, onOutputLevelChange);
     }
 
     draw() {
@@ -26,10 +32,10 @@ class WaveshaperDistortionPanel {
         rect(this.x, this.y + this.headerTextSize,  this.width, this.height, 10);
 
         this.drawLabel("Distortion\nAmount", this.x + 60, this.y + this.headerTextSize + 50);
-        this.cutoffFrequencyKnob.draw();
+        this.distortionAmountKnob.draw();
 
         this.drawLabel("Oversample", this.x + 180, this.y + this.headerTextSize + 50);
-        this.resonanceKnob.draw();
+        this.oversampleKnob.draw();
 
 
         this.drawLabel("Dry/Wet", this.x + 60, this.y + this.headerTextSize + 190);
@@ -37,7 +43,7 @@ class WaveshaperDistortionPanel {
     }
 
     cursorShouldBeHand() {
-        return this.cutoffFrequencyKnob.cursorShouldBeHand() || this.resonanceKnob.cursorShouldBeHand();
+        return this.distortionAmountKnob.cursorShouldBeHand() || this.oversampleKnob.cursorShouldBeHand();
     }
 
     drawLabel(labelText, x, y) {
@@ -49,12 +55,22 @@ class WaveshaperDistortionPanel {
     }
 
     mousePressed() {
-        this.cutoffFrequencyKnob.mousePressed();
-        this.resonanceKnob.mousePressed();
+        this.distortionAmountKnob.mousePressed();
+        this.oversampleKnob.mousePressed();
     }
 
     mouseReleased() {
-        this.cutoffFrequencyKnob.mouseReleased();
-        this.resonanceKnob.mouseReleased();
+        this.distortionAmountKnob.mouseReleased();
+        this.oversampleKnob.mouseReleased();
+    }
+
+    mapOversampleKnobValue(value) {
+        if (value < 1) {
+            return 'none';
+        }
+        if (value <= 2) {
+            return '2x';
+        }
+        return '4x';
     }
 }
