@@ -23,7 +23,7 @@ class ReverbPanel {
         this.durationKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100, 0, 10, 3, onDurationChange);
         this.decayRateKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100, 0, 100, 2, onDecayRateChange);
         this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 245, 130, 0, onDryWetChange);
-        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 245, 130, 0, onOutputLevelChange);
+        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 245, 130, 1, onOutputLevelChange);
 
         onReverseChange(false);
     }

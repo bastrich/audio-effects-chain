@@ -23,7 +23,7 @@ class DynamicCompressorPanel {
         this.ratioKnob = new Knob(x + 70, y + this.headerTextSize + 150, 100, 1, 20, 12, onRationChange);
         this.thresholdKnob = new Knob(x + 200, y + this.headerTextSize + 150, 100, -100, 0, -24, onThresholdChange);
         this.dryWetSlider = new Slider(x + 103, y + this.headerTextSize + 285, 130, 0, onDryWetChange);
-        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 285, 130, 0, onOutputLevelChange);
+        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 285, 130, 1, onOutputLevelChange);
     }
 
     draw() {

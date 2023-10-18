@@ -21,6 +21,7 @@ let spectrumOutPanel;
 
 function preload() {
     prerecordedAudio = loadSound('audio/prerecorded.wav');
+    prerecordedAudio.onended();
 
     filterEffect =  new p5.Filter();
     dynamicCompressorEffect = new p5.Compressor();
@@ -41,12 +42,18 @@ function preload() {
 
     playbackControlPanel = new PlaybackControlPanel(
         0, 0,
-        function () { },
-        function () { },
+        function () {},
+        function () { userStartAudio() },
         function () {
-            prerecordedAudio.play();
+            prerecordedAudio.pause()
             },
-        function () { prerecordedAudio.stop(); }
+        function () { userStartAudio();
+            prerecordedAudio.play();},
+        function () { prerecordedAudio.stop(); },
+        function () { prerecordedAudio.stop(); },
+        function () { prerecordedAudio.stop(); },
+        function () { userStartAudio(); prerecordedAudio.loop() },
+        function () { prerecordedAudio.stop(); },
     );
     filterPanel = new FilterPanel(
         20, 70,
@@ -95,6 +102,8 @@ function preload() {
 
 function setup() {
     createCanvas(1500, 980);
+
+    playbackControlPanel.setup();
 
     spectrumInPanel = new SpectrumPanel(1000, 100, 470, 350, "Spectrum IN", prerecordedAudio);
     spectrumOutPanel = new SpectrumPanel(1000, 490, 470, 350, "Spectrum OUT", soundOut);

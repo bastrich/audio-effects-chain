@@ -7,9 +7,36 @@ class MediaControlButton {
         this.image = image;
         this.onClick = onClick;
         this.isPressed = false;
+        this.disabled = false;
+        this.active = false;
+    }
+
+    setup() {
+        this.disabledImage = createImage(this.image.width, this.image.height);
+        this.disabledImage.copy(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width, this.image.height);
+
+        this.disabledImage.loadPixels()
+        for (let i = 0; i < this.disabledImage.pixels.length; i++) {
+            this.disabledImage.pixels[i] = this.image.pixels[i] * 0.4;
+        }
+        this.disabledImage.updatePixels()
     }
 
     draw() {
+        if (this.active) {
+            ellipseMode(CORNER)
+            drawingContext.shadowBlur = 10;
+            drawingContext.shadowColor = color(60, 179, 113);
+            fill(color(60, 179, 113, 50 + 0.5* (1 + sin(frameCount / 3)) * 100))
+            ellipse(this.x - 3, this.y - 3, this.size + 6)
+        }
+
+
+        if (this.disabled) {
+            image(this.disabledImage, this.x, this.y, this.size, this.size);
+            return;
+        }
+
         if (this.isPressed) {
             drawingContext.shadowBlur = 70;
             drawingContext.shadowColor = color("DodgerBlue");
@@ -39,6 +66,22 @@ class MediaControlButton {
         drawingContext.shadowOffsetY = 0;
     }
 
+    disable() {
+        this.disabled = true;
+    }
+
+    enable() {
+        this.disabled = false;
+    }
+
+    activate() {
+        this.active = true;
+    }
+
+    deactivate() {
+        this.active = false;
+    }
+
     cursorShouldBeHand() {
         return this.mouseIsOnImage();
     }
@@ -61,19 +104,16 @@ class MediaControlButton {
     }
 
     isHover() {
-        if (this.mouseIsOnImage() && !mouseIsPressed) {
-            return true;
-        } else {
-            return false;
-        }
+        return !!(this.mouseIsOnImage() && !this.isPressed);
     }
 
     mouseIsOnImage() {
-        let imageX = map(mouseX - this.x, 0, this.size, 0, this.image.width);
-        let imageY = map(mouseY - this.y, 0, this.size, 0, this.image.height);
+        let imageX = round(map(mouseX - this.x, 0, this.size, 0, this.image.width));
+        let imageY = round(map(mouseY - this.y, 0, this.size, 0, this.image.height));
+        let pixelAlphaIndex = (imageX + imageY * this.image.width) * 4 + 3;
 
-        return mouseX > this.x && mouseX < this.x + this.image.width
-            && mouseY > this.y && mouseY < this.y + this.image.height
-            && this.image.get(imageX, imageY)[3] != 0
+        return !this.disabled && mouseX > this.x && mouseX < this.x + this.size
+            && mouseY > this.y && mouseY < this.y + this.size
+            && this.image.pixels[pixelAlphaIndex] !== 0
     }
 }

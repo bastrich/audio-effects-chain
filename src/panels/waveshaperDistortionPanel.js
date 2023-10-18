@@ -17,7 +17,7 @@ class WaveshaperDistortionPanel {
         this.distortionAmountKnob = new Knob(x + 10, y + this.headerTextSize + 50, 100, 0, 1, 0.25, onDistortionAmountChange);
         this.oversampleKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100, 0, 3, 0, (value) => onOversampleChange(this.mapOversampleKnobValue(value)));
         this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 185, 130, 0, onDryWetChange);
-        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 185, 130, 0, onOutputLevelChange);
+        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 185, 130, 1, onOutputLevelChange);
     }
 
     draw() {

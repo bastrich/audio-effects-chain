@@ -29,7 +29,7 @@ class FilterPanel {
         this.cutoffFrequencyKnob = new Knob(x + 10, y + this.headerTextSize + 90, 100, 10, 22050, 10, onCutoffFrequencyChange);
         this.resonanceKnob = new Knob(x + 130, y + this.headerTextSize + 90, 100, 0.001, 1000, 0.001, onResonanceChange);
         this.dryWetSlider = new Slider(x + 43, y + this.headerTextSize + 225, 130, 0, onDryWetChange);
-        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 225, 130, 0, onOutputLevelChange);
+        this.outputLevelSlider = new Slider(x + 163, y + this.headerTextSize + 225, 130, 1, onOutputLevelChange);
 
         onFilterTypeChange(this.mapFilterTypeRadioValue('Low-pass'));
     }

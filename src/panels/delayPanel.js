@@ -19,7 +19,7 @@ class DelayPanel {
         this.feedbackKnob = new Knob(x + 130, y + this.headerTextSize + 50, 100, 0, 1, 0.5, onFeedbackChange);
         this.lowpassFrequencyKnob = new Knob(x + 250, y + this.headerTextSize + 50, 100, 10, 22050, 10, onLowpassFrequencyChange);
         this.dryWetSlider = new Slider(x + 103, y + this.headerTextSize + 185, 130, 0, onDryWetChange);
-        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 185, 130, 0, onOutputLevelChange);
+        this.outputLevelSlider = new Slider(x + 233, y + this.headerTextSize + 185, 130, 1, onOutputLevelChange);
     }
 
     draw() {
