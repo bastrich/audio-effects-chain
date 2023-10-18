@@ -23,7 +23,7 @@ class Knob {
 
         this.image = loadImage("../images/knob.png");
 
-        this.onChange(this.value);
+        this.onChange(Number(this.value));
     }
 
     draw() {
@@ -56,7 +56,7 @@ class Knob {
 
             if (currentAngle !== newAngle) {
                 this.value = map(this.angle, this.minAngle, this.maxAngle, this.min, this.max);
-                this.onChange(this.value );
+                this.onChange(Number(this.value));
             }
 
 

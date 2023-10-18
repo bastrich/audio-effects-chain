@@ -16,8 +16,6 @@ let reverbEffect;
 let waveshaperDistortionEffect;
 let delayEffect;
 
-let effectChain;
-
 let spectrumInPanel;
 let spectrumOutPanel;
 
@@ -30,13 +28,22 @@ function preload() {
     waveshaperDistortionEffect = new p5.Distortion();
     delayEffect = new p5.Delay();
 
+    prerecordedAudio.disconnect();
+
+    filterEffect.disconnect()
+    dynamicCompressorEffect.disconnect()
+    reverbEffect.disconnect()
+    waveshaperDistortionEffect.disconnect()
+    delayEffect.disconnect()
+
+    prerecordedAudio.connect(filterEffect);
+    filterEffect.chain(waveshaperDistortionEffect, delayEffect, dynamicCompressorEffect, reverbEffect, soundOut);
+
     playbackControlPanel = new PlaybackControlPanel(
         0, 0,
         function () { },
         function () { },
         function () {
-            prerecordedAudio.disconnect();
-            prerecordedAudio.connect(filterEffect);
             prerecordedAudio.play();
             },
         function () { prerecordedAudio.stop(); }
@@ -49,53 +56,48 @@ function preload() {
         (value) => filterEffect.drywet(value),
         (value) => filterEffect.amp(value)
     );
-
     dynamicCompressorPanel = new DynamicCompressorPanel(
         280, 70,
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value)
+        (value) => dynamicCompressorEffect.attack(value),
+        (value) => dynamicCompressorEffect.knee(value),
+        (value) => dynamicCompressorEffect.release(value),
+        (value) => dynamicCompressorEffect.ratio(value),
+        (value) => dynamicCompressorEffect.threshold(value),
+        (value) => dynamicCompressorEffect.drywet(value),
+        (value) => dynamicCompressorEffect.amp(value)
     );
     reverbPanel = new ReverbPanel(
         20, 510,
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value)
+        (value) => reverbEffect.set(value),
+        (value) => reverbEffect.set(null, value),
+        (value) => reverbEffect.set(null, null, value),
+        (value) => reverbEffect.drywet(value),
+        (value) => reverbEffect.amp(value)
     );
     waveshaperDistortionPanel = new WaveshaperDistortionPanel(
         310, 570,
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value)
+        (value) => waveshaperDistortionEffect.set(value),
+        (value) => waveshaperDistortionEffect.set(null, value),
+        (value) => waveshaperDistortionEffect.drywet(value),
+        (value) => waveshaperDistortionEffect.amp(value)
     );
     delayPanel = new DelayPanel(
         600, 570,
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value),
-        (value) => console.log(value)
+        (value) => delayEffect.delayTime(value),
+        (value) => delayEffect.feedback(value),
+        (value) => delayEffect.filter(value),
+        (value) => delayEffect.drywet(value),
+        (value) => delayEffect.amp(value)
     );
 
-    masterVolumePanel = new MasterVolumePanel(765, 180, (value) => masterVolume(value));
+    masterVolumePanel = new MasterVolumePanel(765, 180, (value) => outputVolume(value));
 }
 
 function setup() {
     createCanvas(1500, 980);
 
-
-
-    // effectChain = filterEffect.chain(waveshaperDistortionEffect, delayEffect, dynamicCompressorEffect, reverbEffect);
-
     spectrumInPanel = new SpectrumPanel(1000, 100, 470, 350, "Spectrum IN", prerecordedAudio);
-    spectrumOutPanel = new SpectrumPanel(1000, 490, 470, 350, "Spectrum OUT", filterEffect);
+    spectrumOutPanel = new SpectrumPanel(1000, 490, 470, 350, "Spectrum OUT", soundOut);
 
 
     // let mic = new p5.AudioIn();
@@ -120,8 +122,6 @@ function draw() {
     spectrumOutPanel.draw();
 
     updateCursorIcon();
-
-    // updateEffectParams();
 }
 
 function updateCursorIcon() {
@@ -136,32 +136,6 @@ function updateCursorIcon() {
     } else {
         cursor(ARROW);
     }
-}
-
-function updateEffectParams() {
-
-
-    dynamicCompressorEffect.attack(dynamicCompressorPanel.attack);
-    dynamicCompressorEffect.knee(dynamicCompressorPanel.knee);
-    dynamicCompressorEffect.release(dynamicCompressorPanel.release);
-    dynamicCompressorEffect.ratio(dynamicCompressorPanel.ratio);
-    dynamicCompressorEffect.threshold(dynamicCompressorPanel.threshold);
-    dynamicCompressorEffect.drywet(dynamicCompressorPanel.dryWet)
-    dynamicCompressorEffect.amp(dynamicCompressorPanel.outputLevel)
-
-    reverbEffect.set(reverbPanel.duration, reverbPanel.decayRate, reverbPanel.reverse);
-    reverbEffect.drywet(reverbPanel.dryWet)
-    reverbEffect.amp(reverbPanel.outputLevel)
-
-    waveshaperDistortionEffect.set(waveshaperDistortionPanel.distortionAmount, waveshaperDistortionPanel.oversample);
-    waveshaperDistortionEffect.drywet(waveshaperDistortionPanel.dryWet)
-    waveshaperDistortionEffect.amp(waveshaperDistortionPanel.outputLevel)
-
-    delayEffect.delayTime(delayPanel.delayTime);
-    delayEffect.feedback(delayPanel.feedback);
-    delayEffect.filter(delayPanel.lowpassFrequency);
-    delayEffect.drywet(delayPanel.dryWet)
-    delayEffect.amp(delayPanel.outputLevel)
 }
 
 function mousePressed() {

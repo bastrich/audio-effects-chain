@@ -5,8 +5,8 @@ class Slider {
         this.slider.style('width', size + 'px');
         this.slider.style('transform', 'rotate(-90deg)  translateY(-' + (size/2 - 13) + 'px) translateX(-' + (size/2 + 5) + 'px)');
         this.slider.addClass('audio-slider')
-        this.slider.input((event) => onChange(event.target.value));
-        onChange(value);
+        this.slider.input((event) => onChange(Number(event.target.value)));
+        onChange(Number(value));
     }
 
     get value() {
