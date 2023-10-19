@@ -23,6 +23,7 @@ class Knob {
         this.dragging = false;
 
         this.image = loadImage("../images/knob.png");
+        this.image.loadPixels();
 
         this.onChange(Number(this.value));
     }
@@ -136,9 +137,10 @@ class Knob {
     mouseIsOnImage() {
         let imageX = map(mouseX - this.x - this.barsSize, 0, this.knobSize, 0, this.image.width);
         let imageY = map(mouseY - this.y - this.barsSize, 0, this.knobSize, 0, this.image.height);
+        let pixelAlphaIndex = (imageX + imageY * this.image.width) * 4 + 3;
 
         return mouseX > this.x + this.barsSize && mouseX < this.x + this.size - this.barsSize
             && mouseY > this.y + this.barsSize && mouseY < this.y + this.size - this.barsSize
-            && this.image.get(imageX, imageY)[3] !== 0;
+            && this.image.pixels[pixelAlphaIndex] !== 0;
     }
 }

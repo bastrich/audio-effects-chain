@@ -108,8 +108,8 @@ class MediaControlButton {
     }
 
     mouseIsOnImage() {
-        let imageX = round(map(mouseX - this.x, 0, this.size, 0, this.image.width));
-        let imageY = round(map(mouseY - this.y, 0, this.size, 0, this.image.height));
+        let imageX = map(mouseX - this.x, 0, this.size, 0, this.image.width);
+        let imageY = map(mouseY - this.y, 0, this.size, 0, this.image.height);
         let pixelAlphaIndex = (imageX + imageY * this.image.width) * 4 + 3;
 
         return !this.disabled && mouseX > this.x && mouseX < this.x + this.size
