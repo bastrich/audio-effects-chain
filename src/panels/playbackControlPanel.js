@@ -89,6 +89,7 @@ class PlaybackControlPanel {
         let self = this;
         return function() {
             onPause();
+
             self.pauseButton.disable();
             self.playButton.enable();
             self.stopButton.enable();
@@ -96,6 +97,11 @@ class PlaybackControlPanel {
             self.forwardButton.enable();
             self.loopButton.disable();
             self.recordButton.disable();
+
+            self.pauseButton.activate();
+            self.playButton.deactivate();
+            self.loopButton.deactivate();
+            self.recordButton.deactivate();
         }
     }
 
@@ -103,6 +109,7 @@ class PlaybackControlPanel {
         let self = this;
         return function() {
             onPlay();
+
             self.pauseButton.enable();
             self.playButton.disable();
             self.stopButton.enable();
@@ -111,10 +118,10 @@ class PlaybackControlPanel {
             self.loopButton.disable();
             self.recordButton.enable();
 
-            self.pauseButton.activate();
+            self.pauseButton.deactivate();
             self.playButton.activate();
-            self.loopButton.activate();
-            self.recordButton.activate();
+            self.loopButton.deactivate();
+            self.recordButton.deactivate();
         }
     }
 
@@ -122,13 +129,31 @@ class PlaybackControlPanel {
         let self = this;
         return function() {
             onStop();
-            self.pauseButton.disable();
-            self.playButton.enable();
-            self.stopButton.disable();
-            self.backwardButton.disable();
-            self.forwardButton.disable();
-            self.loopButton.enable();
-            self.recordButton.disable();
+
+            switch (self.modeRadio.value()) {
+                case "Prerecorded Audio":
+                    self.pauseButton.disable();
+                    self.playButton.enable();
+                    self.stopButton.disable();
+                    self.backwardButton.disable();
+                    self.forwardButton.disable();
+                    self.loopButton.enable();
+                    self.recordButton.disable();
+
+                    self.pauseButton.deactivate();
+                    self.playButton.deactivate();
+                    self.loopButton.deactivate();
+                    self.recordButton.deactivate();
+
+                    break;
+                case "Microphone":
+                    onMicrophone();
+                    self.stopButton.disable();
+                    self.recordButton.enable();
+                    self.recordButton.deactivate();
+
+                    break;
+            }
         }
     }
 
@@ -136,6 +161,7 @@ class PlaybackControlPanel {
         let self = this;
         return function() {
             onLoop();
+
             self.pauseButton.enable();
             self.playButton.disable();
             self.stopButton.enable();
@@ -143,6 +169,11 @@ class PlaybackControlPanel {
             self.forwardButton.enable();
             self.loopButton.disable();
             self.recordButton.enable();
+
+            self.pauseButton.deactivate();
+            self.playButton.deactivate();
+            self.loopButton.activate();
+            self.recordButton.deactivate();
         }
     }
 
@@ -150,13 +181,19 @@ class PlaybackControlPanel {
         let self = this;
         return function() {
             onRecord();
-            self.pauseButton.disable();
-            self.playButton.disable();
-            self.stopButton.enable();
-            self.backwardButton.disable();
-            self.forwardButton.disable();
-            self.loopButton.disable();
-            self.recordButton.disable();
+
+            switch (self.modeRadio.value()) {
+                case "Prerecorded Audio":
+                    self.recordButton.disable();
+                    self.recordButton.activate();
+                    break;
+                case "Microphone":
+                    onMicrophone();
+                    self.stopButton.enable();
+                    self.recordButton.disable();
+                    self.recordButton.activate();
+                    break;
+            }
         }
     }
 
@@ -186,5 +223,17 @@ class PlaybackControlPanel {
                     break;
             }
         }
+    }
+
+    playbackFinished() {
+        self.pauseButton.disable();
+        self.playButton.enable();
+        self.stopButton.disable();
+        self.backwardButton.disable();
+        self.forwardButton.disable();
+        self.loopButton.enable();
+        self.recordButton.disable();
+
+        self.playButton.deactivate();
     }
 }

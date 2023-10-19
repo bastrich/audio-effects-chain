@@ -39,4 +39,8 @@ class SpectrumPanel {
             rect(x, y, width, height);
         }
     }
+
+    setInput(audioInput) {
+        this.fft.setInput(audioInput);
+    }
 }

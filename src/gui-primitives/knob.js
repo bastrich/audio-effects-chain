@@ -1,5 +1,5 @@
 class Knob {
-    constructor(x, y, size, min, max, value, onChange) {
+    constructor(x, y, size, min, max, value, onChange, displayValueFunction) {
         this.x = x;
         this.y = y;
         this.size = size;
@@ -9,6 +9,7 @@ class Knob {
         this.value = value;
 
         this.onChange = onChange;
+        this.displayValueFunction = displayValueFunction;
 
         this.barsSize = 15;
         this.knobSize = size - 2 * this.barsSize;
@@ -55,7 +56,7 @@ class Knob {
             let newAngle = this.angle;
 
             if (currentAngle !== newAngle) {
-                this.value = map(this.angle, this.minAngle, this.maxAngle, this.min, this.max);
+                this.value = round(map(this.angle, this.minAngle, this.maxAngle, this.min, this.max), 3);
                 this.onChange(Number(this.value));
             }
 
@@ -75,16 +76,13 @@ class Knob {
 
         drawingContext.shadowBlur = 0;
 
-        // Map is an amazing function that will map one range to another!
-        // Here we take the knob's range and map it to a value between 0 and 255
-        // Our angle is either between
-        // let calcAngle = 0;
-        // if (this.angle < 0) {
-        //     calcAngle = map(this.angle, -PI, 0, PI, 0);
-        // } else if (angle > 0) {
-        //     calcAngle = map(this.angle, 0, PI, TWO_PI, PI);
-        // }
-
+        push();
+            textAlign(CENTER, CENTER);
+            textSize(13);
+            fill(color("LavenderBlush"))
+            // stroke(color("white"))
+            text(this.displayValueFunction ? this.displayValueFunction(this.value) : this.value, this.x + this.size / 2, this.y + this.size/2);
+        pop();
     }
 
     drawBars() {
@@ -110,8 +108,6 @@ class Knob {
                     drawingContext.shadowColor = color("red")
                     drawingContext.shadowBlur = 5;
                     fill(color("red"))
-                    // strokeWeight(0.5)
-                    // stroke(0)
                 } else {
                     fill(color("LightCoral"))
                 }

@@ -1,4 +1,7 @@
 let prerecordedAudio;
+let microphone;
+let recorder;
+let recordedAudio;
 
 let playbackControlPanel;
 
@@ -21,9 +24,12 @@ let spectrumOutPanel;
 
 function preload() {
     prerecordedAudio = loadSound('audio/prerecorded.wav');
-    prerecordedAudio.onended();
+    prerecordedAudio.onended(() => {
+        recorder.stop();
+        playbackControlPanel.playbackFinished();
+    });
 
-    filterEffect =  new p5.Filter();
+    filterEffect = new p5.Filter();
     dynamicCompressorEffect = new p5.Compressor();
     reverbEffect = new p5.Reverb();
     waveshaperDistortionEffect = new p5.Distortion();
@@ -42,18 +48,43 @@ function preload() {
 
     playbackControlPanel = new PlaybackControlPanel(
         0, 0,
-        function () {},
-        function () { userStartAudio() },
-        function () {
+        () => {
+            if (microphone) microphone.stop();
+            if (microphone) microphone.disconnect();
+            prerecordedAudio.connect(filterEffect);
+            if (spectrumInPanel) spectrumInPanel.setInput(prerecordedAudio);
+        },
+        () => {
+            userStartAudio();
+            prerecordedAudio.stop();
+            prerecordedAudio.disconnect();
+            microphone.start();
+            microphone.connect(filterEffect);
+            spectrumInPanel.setInput(microphone);
+        },
+        () => {
             prerecordedAudio.pause()
-            },
-        function () { userStartAudio();
-            prerecordedAudio.play();},
-        function () { prerecordedAudio.stop(); },
-        function () { prerecordedAudio.stop(); },
-        function () { prerecordedAudio.stop(); },
-        function () { userStartAudio(); prerecordedAudio.loop() },
-        function () { prerecordedAudio.stop(); },
+        },
+        () => {
+            userStartAudio();
+            prerecordedAudio.play();
+        },
+        () => {
+            prerecordedAudio.stop();
+        },
+        () => {
+            prerecordedAudio.stop();
+        },
+        () => {
+            prerecordedAudio.stop();
+        },
+        () => {
+            userStartAudio();
+            prerecordedAudio.loop()
+        },
+        () => {
+            prerecordedAudio.stop();
+        },
     );
     filterPanel = new FilterPanel(
         20, 70,
@@ -102,6 +133,10 @@ function preload() {
 
 function setup() {
     createCanvas(1500, 980);
+
+    microphone = new p5.AudioIn();
+    recorder = new p5.SoundRecorder();
+    recorder.setInput();
 
     playbackControlPanel.setup();
 
