@@ -233,5 +233,6 @@ class PlaybackControlPanel {
         this.recordButton.disable();
 
         this.playButton.deactivate();
+        this.recordButton.deactivate();
     }
 }
