@@ -147,7 +147,6 @@ class PlaybackControlPanel {
 
                     break;
                 case "Microphone":
-                    onMicrophone();
                     self.stopButton.disable();
                     self.recordButton.enable();
                     self.recordButton.deactivate();
@@ -188,7 +187,6 @@ class PlaybackControlPanel {
                     self.recordButton.activate();
                     break;
                 case "Microphone":
-                    onMicrophone();
                     self.stopButton.enable();
                     self.recordButton.disable();
                     self.recordButton.activate();
@@ -226,14 +224,14 @@ class PlaybackControlPanel {
     }
 
     playbackFinished() {
-        self.pauseButton.disable();
-        self.playButton.enable();
-        self.stopButton.disable();
-        self.backwardButton.disable();
-        self.forwardButton.disable();
-        self.loopButton.enable();
-        self.recordButton.disable();
+        this.pauseButton.disable();
+        this.playButton.enable();
+        this.stopButton.disable();
+        this.backwardButton.disable();
+        this.forwardButton.disable();
+        this.loopButton.enable();
+        this.recordButton.disable();
 
-        self.playButton.deactivate();
+        this.playButton.deactivate();
     }
 }

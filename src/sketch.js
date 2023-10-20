@@ -24,10 +24,7 @@ let spectrumOutPanel;
 
 function preload() {
     prerecordedAudio = loadSound('audio/prerecorded.wav');
-    prerecordedAudio.onended(() => {
-        recorder.stop();
-        playbackControlPanel.playbackFinished();
-    });
+    prerecordedAudio.onended(onPlaybackEnded);
 
     filterEffect = new p5.Filter();
     dynamicCompressorEffect = new p5.Compressor();
@@ -35,56 +32,24 @@ function preload() {
     waveshaperDistortionEffect = new p5.Distortion();
     delayEffect = new p5.Delay();
 
-    prerecordedAudio.disconnect();
-
     filterEffect.disconnect()
     dynamicCompressorEffect.disconnect()
     reverbEffect.disconnect()
     waveshaperDistortionEffect.disconnect()
     delayEffect.disconnect()
-
-    prerecordedAudio.connect(filterEffect);
     filterEffect.chain(waveshaperDistortionEffect, delayEffect, dynamicCompressorEffect, reverbEffect, soundOut);
 
     playbackControlPanel = new PlaybackControlPanel(
         0, 0,
-        () => {
-            if (microphone) microphone.stop();
-            if (microphone) microphone.disconnect();
-            prerecordedAudio.connect(filterEffect);
-            if (spectrumInPanel) spectrumInPanel.setInput(prerecordedAudio);
-        },
-        () => {
-            userStartAudio();
-            prerecordedAudio.stop();
-            prerecordedAudio.disconnect();
-            microphone.start();
-            microphone.connect(filterEffect);
-            spectrumInPanel.setInput(microphone);
-        },
-        () => {
-            prerecordedAudio.pause()
-        },
-        () => {
-            userStartAudio();
-            prerecordedAudio.play();
-        },
-        () => {
-            prerecordedAudio.stop();
-        },
-        () => {
-            prerecordedAudio.stop();
-        },
-        () => {
-            prerecordedAudio.stop();
-        },
-        () => {
-            userStartAudio();
-            prerecordedAudio.loop()
-        },
-        () => {
-            prerecordedAudio.stop();
-        },
+        onSwitchToPrerecordedAudio,
+        onSwitchToMicrophone,
+        onPause,
+        onPlay,
+        onStop,
+        onBackward,
+        onForward,
+        onLoop,
+        onRecord
     );
     filterPanel = new FilterPanel(
         20, 70,
@@ -135,18 +100,11 @@ function setup() {
     createCanvas(1500, 980);
 
     microphone = new p5.AudioIn();
-    recorder = new p5.SoundRecorder();
-    recorder.setInput();
 
     playbackControlPanel.setup();
 
     spectrumInPanel = new SpectrumPanel(1000, 100, 470, 350, "Spectrum IN", prerecordedAudio);
     spectrumOutPanel = new SpectrumPanel(1000, 490, 470, 350, "Spectrum OUT", soundOut);
-
-
-    // let mic = new p5.AudioIn();
-    // mic.start()
-    // mic.connect();
 }
 
 function draw() {
@@ -189,8 +147,6 @@ function mousePressed() {
     reverbPanel.mousePressed();
     waveshaperDistortionPanel.mousePressed();
     delayPanel.mousePressed();
-
-    // return false;
 }
 
 function mouseReleased() {
@@ -200,4 +156,76 @@ function mouseReleased() {
     reverbPanel.mouseReleased();
     waveshaperDistortionPanel.mouseReleased();
     delayPanel.mouseReleased();
+}
+
+function onPlaybackEnded() {
+    finishRecording();
+    playbackControlPanel.playbackFinished();
+}
+
+function onSwitchToPrerecordedAudio() {
+    finishRecording();
+    prerecordedAudio.disconnect();
+    if (microphone) {
+        microphone.stop();
+        microphone.disconnect();
+    }
+    prerecordedAudio.connect(filterEffect);
+    if (spectrumInPanel) spectrumInPanel.setInput(prerecordedAudio);
+}
+
+function onSwitchToMicrophone() {
+    userStartAudio();
+    finishRecording();
+    prerecordedAudio.stop();
+    prerecordedAudio.disconnect();
+    microphone.disconnect();
+    microphone.start();
+    microphone.connect(filterEffect);
+    spectrumInPanel.setInput(microphone);
+}
+
+function onPause() {
+    prerecordedAudio.pause()
+}
+
+function onPlay() {
+    userStartAudio();
+    prerecordedAudio.play();
+}
+
+function onStop() {
+    prerecordedAudio.stop();
+    finishRecording();
+}
+
+function onBackward() {
+    prerecordedAudio.jump(prerecordedAudio.currentTime() - 5);
+}
+
+function onForward() {
+    prerecordedAudio.jump(prerecordedAudio.currentTime() + 5);
+}
+
+function onLoop() {
+    userStartAudio();
+    prerecordedAudio.loop()
+}
+
+function onRecord() {
+    recorder = new p5.SoundRecorder();
+    recordedAudio = new p5.SoundFile();
+    recorder.record(
+        recordedAudio,
+        null,
+        () => {
+            recordedAudio.save("processed-recording.wav");
+            recordedAudio = null;
+        }
+    );
+}
+
+function finishRecording() {
+    if (recorder) recorder.stop();
+    recorder = null;
 }
