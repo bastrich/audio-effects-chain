@@ -61,8 +61,6 @@ class Knob {
                 this.onChange(Number(this.value));
             }
 
-
-
             drawingContext.shadowColor = color(0, 250, 154, 150);
             drawingContext.shadowBlur = 15;
         }

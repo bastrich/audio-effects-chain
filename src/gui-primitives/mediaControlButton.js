@@ -31,7 +31,6 @@ class MediaControlButton {
             ellipse(this.x - 3, this.y - 3, this.size + 6)
         }
 
-
         if (this.disabled) {
             image(this.disabledImage, this.x, this.y, this.size, this.size);
             return;

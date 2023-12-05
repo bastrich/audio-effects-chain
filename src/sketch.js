@@ -171,7 +171,9 @@ function onSwitchToPrerecordedAudio() {
         microphone.disconnect();
     }
     prerecordedAudio.connect(filterEffect);
-    if (spectrumInPanel) spectrumInPanel.setInput(prerecordedAudio);
+    if (spectrumInPanel) {
+        spectrumInPanel.setInput(prerecordedAudio);
+    }
 }
 
 function onSwitchToMicrophone() {

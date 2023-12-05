@@ -8,7 +8,6 @@ class Slider {
         this.slider.input((event) => onChange(Number(event.target.value)));
         onChange(Number(value));
     }
-
     get value() {
         return this.slider.value();
     }

@@ -37,7 +37,6 @@ class WaveshaperDistortionPanel {
         this.drawLabel("Oversample", this.x + 180, this.y + this.headerTextSize + 50);
         this.oversampleKnob.draw();
 
-
         this.drawLabel("Dry/Wet", this.x + 60, this.y + this.headerTextSize + 190);
         this.drawLabel("Output\nLevel", this.x + 180, this.y + this.headerTextSize + 190);
     }
