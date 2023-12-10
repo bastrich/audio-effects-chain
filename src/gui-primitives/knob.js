@@ -1,3 +1,4 @@
+//start
 class Knob {
     constructor(x, y, size, min, max, value, onChange, displayValueFunction) {
         this.x = x;
@@ -142,3 +143,4 @@ class Knob {
             && this.image.pixels[pixelAlphaIndex] !== 0;
     }
 }
+//end

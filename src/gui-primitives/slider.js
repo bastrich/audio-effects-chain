@@ -1,3 +1,4 @@
+//start
 class Slider {
     constructor(x, y, size, value, onChange) {
         this.slider = createSlider(0, 1, value, 0.001);
@@ -12,3 +13,4 @@ class Slider {
         return this.slider.value();
     }
 }
+//end

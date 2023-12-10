@@ -1,3 +1,4 @@
+//start
 class SpectrumPanel {
     constructor(x, y, width, height, title, audioInput) {
         this.x = x;
@@ -39,3 +40,4 @@ class SpectrumPanel {
         this.fft.setInput(audioInput);
     }
 }
+//end

@@ -1,3 +1,4 @@
+//start
 class PlaybackControlPanel {
     constructor(
         x, y,
@@ -236,3 +237,4 @@ class PlaybackControlPanel {
         this.recordButton.deactivate();
     }
 }
+//end

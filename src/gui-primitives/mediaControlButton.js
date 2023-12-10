@@ -1,3 +1,4 @@
+//start
 class MediaControlButton {
 
     constructor(image, x, y, size, onClick) {
@@ -116,3 +117,4 @@ class MediaControlButton {
             && this.image.pixels[pixelAlphaIndex] !== 0
     }
 }
+//end

@@ -1,3 +1,4 @@
+//start
 class FilterPanel {
     constructor(
         x, y,
@@ -89,3 +90,4 @@ class FilterPanel {
         }
     }
 }
+//end

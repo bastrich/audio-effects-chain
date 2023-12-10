@@ -1,3 +1,4 @@
+//start
 class DelayPanel {
     constructor(
         x, y,
@@ -73,3 +74,4 @@ class DelayPanel {
         this.lowpassFrequencyKnob.mouseReleased();
     }
 }
+//end

@@ -1,3 +1,4 @@
+//start
 class MasterVolumePanel {
     constructor(
         x, y,
@@ -29,3 +30,4 @@ class MasterVolumePanel {
         return this.masterVolumelider.value();
     }
 }
+//end

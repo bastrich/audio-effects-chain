@@ -1,3 +1,4 @@
+//start
 let prerecordedAudio;
 let microphone;
 let recorder;
@@ -231,3 +232,4 @@ function finishRecording() {
     if (recorder) recorder.stop();
     recorder = null;
 }
+//end

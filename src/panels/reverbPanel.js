@@ -1,3 +1,4 @@
+//start
 class ReverbPanel {
     constructor(
         x, y,
@@ -73,3 +74,4 @@ class ReverbPanel {
         this.decayRateKnob.mouseReleased();
     }
 }
+//end

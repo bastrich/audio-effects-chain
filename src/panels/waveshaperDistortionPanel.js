@@ -1,3 +1,4 @@
+//start
 class WaveshaperDistortionPanel {
     constructor(
         x, y,
@@ -73,3 +74,4 @@ class WaveshaperDistortionPanel {
         return '4x';
     }
 }
+//end

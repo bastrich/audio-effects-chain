@@ -1,3 +1,4 @@
+//start
 class DynamicCompressorPanel {
     constructor(
         x, y,
@@ -89,3 +90,4 @@ class DynamicCompressorPanel {
         this.thresholdKnob.mouseReleased();
     }
 }
+//end
