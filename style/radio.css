@@ -1,7 +1,7 @@
 /*start*/
 @font-face {
     font-family: radio-font;
-    src: url(fonts/cinzel.black.ttf);
+    src: url(../fonts/cinzel.black.ttf);
 }
 
 .audi-radio {

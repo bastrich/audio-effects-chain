@@ -19,7 +19,7 @@
 .audio-slider::-webkit-slider-thumb {
     width: 18px;
     height: 34px;
-    background: url('images/slider.png') no-repeat;
+    background: url('../images/slider.png') no-repeat;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -13px;
