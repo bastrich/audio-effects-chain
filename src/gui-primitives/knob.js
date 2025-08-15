@@ -23,7 +23,7 @@ class Knob {
         this.draggingStartAngleOffset = this.angle;
         this.dragging = false;
 
-        this.image = loadImage("../images/knob.png");
+        this.image = loadImage("images/knob.png");
         this.image.loadPixels();
 
         this.onChange(Number(this.value));

@@ -1,7 +1,7 @@
 /*start*/
 @font-face {
     font-family: checkbox-font;
-    src: url(../fonts/CroissantOne-dpgZ.ttf);
+    src: url(fonts/CroissantOne-dpgZ.ttf);
 }
 
 .reverse-reverb-checkbox span {
